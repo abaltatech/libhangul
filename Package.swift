@@ -25,7 +25,9 @@ let package = Package(
                 "hanja.c",
             ],
             publicHeadersPath: "./",
-            swiftSettings: [.interoperabilityMode(.Cxx)]),
+            linkerSettings: [
+              .linkedLibrary("iconv")
+            ]),
     ],
     cxxLanguageStandard: .cxx11
 )
