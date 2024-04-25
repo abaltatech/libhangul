@@ -40,6 +40,7 @@ enum {
 
 typedef uint32_t ucschar;
 
+void ucs4_to_utf8(char *buf, const ucschar *ucs4, size_t bufsize);
 bool hangul_is_choseong(ucschar c);
 bool hangul_is_jungseong(ucschar c);
 bool hangul_is_jongseong(ucschar c);
@@ -111,6 +112,7 @@ const char* hangul_keyboard_list_get_keyboard_name(unsigned index_);
 const HangulKeyboard* hangul_keyboard_list_get_keyboard(const char* id);
 const char* hangul_keyboard_list_register_keyboard(HangulKeyboard* keyboard);
 HangulKeyboard* hangul_keyboard_list_unregister_keyboard(const char* id);
+char hangul_keyboard_parse_korean_to_ascii(const HangulKeyboard* keyboard, const ucschar korean_letter);
 
 /* combination */
 HangulCombination* hangul_combination_new(void);
@@ -124,6 +126,7 @@ void hangul_ic_delete(HangulInputContext *hic);
 bool hangul_ic_process(HangulInputContext *hic, int ascii);
 void hangul_ic_reset(HangulInputContext *hic);
 bool hangul_ic_backspace(HangulInputContext *hic);
+char hangul_ic_parse_korean_to_ascii(HangulInputContext *hic, const ucschar korean_letter);
 
 bool hangul_ic_is_empty(HangulInputContext *hic);
 bool hangul_ic_has_choseong(HangulInputContext *hic);
