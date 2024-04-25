@@ -24,6 +24,18 @@
 
 #include "hangul.h"
 
+#include <iconv.h>
+#ifndef ICONV_CONST
+#define ICONV_CONST
+#endif
+
+#ifdef WORDS_BIGENDIAN
+#define UCS4 "UCS-4BE"
+#else
+#define UCS4 "UCS-4LE"
+#endif
+
+
 /**
  * @defgroup hangulctype 한글 글자 조작
  * 
@@ -71,6 +83,44 @@ hangul_is_choseong(ucschar c)
     return (c >= 0x1100 && c <= 0x115f) ||
 	   (c >= 0xa960 && c <= 0xa97c);
 ;
+}
+
+
+void ucs4_to_utf8(char *buf, const ucschar *ucs4, size_t bufsize)
+{
+    size_t n;
+    char*  inbuf;
+    size_t inbytesleft;
+    char*  outbuf;
+    size_t outbytesleft;
+    size_t ret;
+    iconv_t cd;
+
+    for (n = 0; ucs4[n] != 0; n++)
+	continue;
+
+    if (n == 0) {
+	buf[0] = '\0';
+	return;
+    }
+
+    cd = iconv_open("UTF-8", UCS4);
+    if (cd == (iconv_t)(-1))
+	return;
+
+    inbuf = (char*)ucs4;
+    inbytesleft = n * 4;
+    outbuf = buf;
+    outbytesleft = bufsize;
+    ret = iconv(cd, &inbuf, &inbytesleft, &outbuf, &outbytesleft);
+    (void)ret;
+
+    iconv_close(cd);
+
+    if (outbytesleft > 0)
+	*outbuf = '\0';
+    else
+	buf[bufsize - 1] = '\0';
 }
 
 /**
