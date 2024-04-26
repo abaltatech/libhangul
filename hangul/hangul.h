@@ -40,6 +40,14 @@ enum {
 
 typedef uint32_t ucschar;
 
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Converts a ucs4 string to utf8.
+///
+///
+/// @param[in] buf - the output buffer
+/// @param[in] ucs4 - the ucs4 string
+/// @param[in] bufsize - the size of the output buffer
+///////////////////////////////////////////////////////////////////////////////
 void ucs4_to_utf8(char *buf, const ucschar *ucs4, size_t bufsize);
 bool hangul_is_choseong(ucschar c);
 bool hangul_is_jungseong(ucschar c);
@@ -112,6 +120,16 @@ const char* hangul_keyboard_list_get_keyboard_name(unsigned index_);
 const HangulKeyboard* hangul_keyboard_list_get_keyboard(const char* id);
 const char* hangul_keyboard_list_register_keyboard(HangulKeyboard* keyboard);
 HangulKeyboard* hangul_keyboard_list_unregister_keyboard(const char* id);
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief returns the ascii code which needs to be inputed in hangul_ic_process in order to 
+/// process the specified Korean letter
+///
+/// @param[in] keyboard - the keyboard layout in which the letter is searched
+/// @param[in] korean_letter - the Korean letter that is searched for
+///
+/// @retval char - The asccii code
+///////////////////////////////////////////////////////////////////////////////
 char hangul_keyboard_parse_korean_to_ascii(const HangulKeyboard* keyboard, const ucschar korean_letter);
 
 /* combination */
@@ -126,6 +144,16 @@ void hangul_ic_delete(HangulInputContext *hic);
 bool hangul_ic_process(HangulInputContext *hic, int ascii);
 void hangul_ic_reset(HangulInputContext *hic);
 bool hangul_ic_backspace(HangulInputContext *hic);
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief returns the ascii code which needs to be inputed in hangul_ic_process in order to 
+/// process the specified Korean letter
+///
+/// @param[in] hic - the context whose keyboard the letter is searched for
+/// @param[in] korean_letter - the Korean letter that is searched for
+///
+/// @retval char - The asccii code
+///////////////////////////////////////////////////////////////////////////////
 char hangul_ic_parse_korean_to_ascii(HangulInputContext *hic, const ucschar korean_letter);
 
 bool hangul_ic_is_empty(HangulInputContext *hic);
