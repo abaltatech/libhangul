@@ -69,7 +69,7 @@
 
 #define HANGUL_KEYBOARD_TABLE_SIZE 0x80
 
-#define ASCII_TABLE_LEBGTH 127
+#define ASCII_TABLE_LENGTH 127
 
 typedef struct _HangulCombinationItem HangulCombinationItem;
 
@@ -1270,7 +1270,7 @@ hangul_keyboard_parse_korean_to_ascii(const HangulKeyboard* keyboard, const ucsc
     }
 
     ucschar* table = keyboard->table[0];
-    for (int i = 0; i < ASCII_TABLE_LEBGTH; ++i) {
+    for (int i = 0; i < ASCII_TABLE_LENGTH; ++i) {
         if (table[i] == korean_letter) {
             return i;
         }
