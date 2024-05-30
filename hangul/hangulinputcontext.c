@@ -1254,6 +1254,15 @@ hangul_ic_backspace(HangulInputContext *hic)
     return ret;
 }
 
+char
+hangul_ic_parse_korean_to_ascii(HangulInputContext *hic, const ucschar korean_letter)
+{
+	if (!hic) {
+		return 0;
+	}
+	return hangul_keyboard_parse_korean_to_ascii(hic->keyboard, korean_letter);
+}
+
 /**
  * @ingroup hangulic
  * @brief @ref HangulInputContext 가 조합중인 글자를 가지고 있는지 확인하는 함수
